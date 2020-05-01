@@ -1,11 +1,11 @@
-import { TypeToSerializerMap } from '@/types/TypeToSerializerMap'
-import { UserSerializer } from '@/transactions/User/UserSerializer'
-import { ModelSerializer } from '@/types/ModelSerializer'
-import { UserTransactionType } from '@/transactions/User/UserTransactionType'
-import { SpecificValidator } from '@/types/SpecificValidator'
-import { TypeToValidatorMap } from '@/types/TypeToValidatorMap'
-import { UserValidator } from '@/transactions/User/UserValidator'
-import { TransactionTypeResolverInterface } from '@/types/TransactionTypeResolverInterface'
+import { TypeToSerializerMap } from 'types/TypeToSerializerMap'
+import { UserSerializer } from 'transactions/User/UserSerializer'
+import { ModelSerializer } from 'types/ModelSerializer'
+import { UserTransactionType } from 'transactions/User/UserTransactionType'
+import { SpecificValidator } from 'types/SpecificValidator'
+import { TypeToValidatorMap } from 'types/TypeToValidatorMap'
+import { UserValidator } from 'transactions/User/UserValidator'
+import { TransactionTypeResolverInterface } from 'types/TransactionTypeResolverInterface'
 
 export class TransactionTypeResolver implements TransactionTypeResolverInterface {
   private readonly typeToSerializerMap: TypeToSerializerMap

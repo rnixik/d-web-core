@@ -1,9 +1,9 @@
-import { Transaction } from '@/models/Transaction'
-import { TransactionModel } from '@/types/TransactionModel'
-import { Signature } from '@/models/Signature'
-import { TransactionSerializerInterface } from '@/types/TransactionSerializerInterface'
-import { TransactionTypeResolverInterface } from '@/types/TransactionTypeResolverInterface'
-import { User } from '@/models/User'
+import { Transaction } from 'models/Transaction'
+import { TransactionModel } from 'types/TransactionModel'
+import { Signature } from 'models/Signature'
+import { TransactionSerializerInterface } from 'types/TransactionSerializerInterface'
+import { TransactionTypeResolverInterface } from 'types/TransactionTypeResolverInterface'
+import { User } from 'models/User'
 
 export class TransactionSerializer implements TransactionSerializerInterface {
   private readonly transactionTypeResolver: TransactionTypeResolverInterface

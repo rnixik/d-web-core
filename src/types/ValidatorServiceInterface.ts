@@ -1,4 +1,4 @@
-import { Transaction } from '@/models/Transaction'
+import { Transaction } from 'models/Transaction'
 
 export interface ValidatorServiceInterface {
   validateBase (storedTransactions: Transaction[], tx: Transaction): void

@@ -1,12 +1,12 @@
 import nacl, { SignKeyPair } from 'tweetnacl'
 import util from 'tweetnacl-util'
-import { AuthenticatedUser } from '@/models/AuthenticatedUser'
-import { TransactionModel } from '@/types/TransactionModel'
-import { Transaction } from '@/models/Transaction'
-import { Signature } from '@/models/Signature'
-import { CryptoServiceInterface } from '@/types/CryptoServiceInterface'
-import { User } from '@/models/User'
-import { TransactionTypeResolverInterface } from '@/types/TransactionTypeResolverInterface'
+import { AuthenticatedUser } from 'models/AuthenticatedUser'
+import { TransactionModel } from 'types/TransactionModel'
+import { Transaction } from 'models/Transaction'
+import { Signature } from 'models/Signature'
+import { CryptoServiceInterface } from 'types/CryptoServiceInterface'
+import { User } from 'models/User'
+import { TransactionTypeResolverInterface } from 'types/TransactionTypeResolverInterface'
 
 export class CryptoService implements CryptoServiceInterface {
   private readonly transactionTypeResolver: TransactionTypeResolverInterface

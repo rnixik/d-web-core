@@ -1,9 +1,9 @@
-import { Transaction } from '@/models/Transaction'
-import { Signature } from '@/models/Signature'
-import { StorageServiceInterface } from '@/types/StorageServiceInterface'
-import { TransactionSerializerInterface } from '@/types/TransactionSerializerInterface'
-import { PreferencesStorageServiceInterface } from '@/types/PreferencesStorageServiceInterface'
-import { PreferencesIgnoreAndBlock } from '@/models/PreferencesIgnoreAndBlock'
+import { Transaction } from 'models/Transaction'
+import { Signature } from 'models/Signature'
+import { StorageServiceInterface } from 'types/StorageServiceInterface'
+import { TransactionSerializerInterface } from 'types/TransactionSerializerInterface'
+import { PreferencesStorageServiceInterface } from 'types/PreferencesStorageServiceInterface'
+import { PreferencesIgnoreAndBlock } from 'models/PreferencesIgnoreAndBlock'
 
 export class StorageService implements StorageServiceInterface, PreferencesStorageServiceInterface {
   private static STORAGE_KEY_TRANSACTIONS = 'transactions'

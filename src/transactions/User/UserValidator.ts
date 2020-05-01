@@ -1,7 +1,7 @@
-import { SpecificValidator } from '@/types/SpecificValidator'
-import { Transaction } from '@/models/Transaction'
-import { UserTransactionType } from '@/transactions/User/UserTransactionType'
-import { User } from '@/models/User'
+import { SpecificValidator } from 'types/SpecificValidator'
+import { Transaction } from 'models/Transaction'
+import { UserTransactionType } from 'transactions/User/UserTransactionType'
+import { User } from 'models/User'
 
 export class UserValidator implements SpecificValidator {
   public loginMinLength = 1

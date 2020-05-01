@@ -1,4 +1,4 @@
-import { AuthenticatedUser } from '@/models/AuthenticatedUser'
+import { AuthenticatedUser } from 'models/AuthenticatedUser'
 
 export interface UserServiceInterface {
   register (login: string, password: string): Promise<AuthenticatedUser>

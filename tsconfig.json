@@ -6,16 +6,10 @@
     "outDir": "./lib",
     "strict": true,
     "esModuleInterop": true,
-    "baseUrl": ".",
+    "baseUrl": "./src",
     "types": [
       "jest"
-    ],
-    "paths": {
-      "@/*": [
-        "src/*",
-        "lib/*"
-      ]
-    }
+    ]
   },
   "include": ["src"],
   "exclude": ["node_modules", "**/__tests__/*"]
