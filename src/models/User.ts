@@ -1,6 +1,6 @@
-import { TransactionModel } from 'types/TransactionModel'
-import { ModelSerializer } from 'types/ModelSerializer'
-import { UserSerializer } from 'transactions/User/UserSerializer'
+import { TransactionModel } from '../types/TransactionModel'
+import { ModelSerializer } from '../types/ModelSerializer'
+import { UserSerializer } from '../transactions/User/UserSerializer'
 
 export class User implements TransactionModel {
   public login: string;

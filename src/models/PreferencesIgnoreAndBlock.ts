@@ -1,4 +1,4 @@
-import { User } from 'models/User'
+import { User } from './User'
 
 export class PreferencesIgnoreAndBlock {
   // Here "block" means current user do not store transactions and signatures of a blocked user.
