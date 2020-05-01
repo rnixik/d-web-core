@@ -1,0 +1,43 @@
+{
+  "name": "d-web-core",
+  "version": "1.0.0",
+  "description": "Transactions mechanism to implement web applications with distributed peer-to-peer storage",
+  "scripts": {
+    "test": "jest",
+    "build": "tsc",
+    "lint": "eslint --cache --ext .js,.jsx,.ts,.tsx src",
+    "prepare": "yarn run build",
+    "prepublishOnly": "yarn run lint",
+    "preversion": "yarn run lint"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rnixik/webrtc-connection.git"
+  },
+  "keywords": [
+    "Distributed",
+    "Transaction"
+  ],
+  "author": "Roman Nix",
+  "license": "MIT",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "bugs": {
+    "url": "https://github.com/rnixik/d-web-core/issues"
+  },
+  "homepage": "https://github.com/rnixik/d-web-core#readme",
+  "dependencies": {
+    "tweetnacl": "^1.0.3",
+    "tweetnacl-util": "^0.15.1"
+  },
+  "devDependencies": {
+    "@types/jest": "^25.2.1",
+    "@typescript-eslint/eslint-plugin": "^2.12.0",
+    "@typescript-eslint/parser": "^2.12.0",
+    "eslint": "^6.7.2",
+    "typescript": "^3.7.3"
+  },
+  "files": [
+    "lib/**/*"
+  ]
+}
