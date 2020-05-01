@@ -1,7 +1,7 @@
-import { User } from 'models/User'
-import { PreferencesStorageServiceInterface } from 'types/PreferencesStorageServiceInterface'
-import { IgnoreAndBlockControlServiceInterface } from 'types/IgnoreAndBlockControlServiceInterface'
-import { PreferencesIgnoreAndBlock } from 'models/PreferencesIgnoreAndBlock'
+import { User } from '../models/User'
+import { PreferencesStorageServiceInterface } from '../types/PreferencesStorageServiceInterface'
+import { IgnoreAndBlockControlServiceInterface } from '../types/IgnoreAndBlockControlServiceInterface'
+import { PreferencesIgnoreAndBlock } from '../models/PreferencesIgnoreAndBlock'
 
 export class IgnoreAndBlockControlService implements IgnoreAndBlockControlServiceInterface {
   private preferencesStorageService: PreferencesStorageServiceInterface

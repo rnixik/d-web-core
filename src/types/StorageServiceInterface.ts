@@ -1,5 +1,5 @@
-import { Transaction } from 'models/Transaction'
-import { Signature } from 'models/Signature'
+import { Transaction } from '../models/Transaction'
+import { Signature } from '../models/Signature'
 
 export interface StorageServiceInterface {
   storeTransactions (transactions: Transaction[]): Transaction[]

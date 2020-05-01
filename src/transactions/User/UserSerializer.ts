@@ -1,6 +1,6 @@
-import { ModelSerializer } from 'types/ModelSerializer'
-import { TransactionModel } from 'types/TransactionModel'
-import { User } from 'models/User'
+import { ModelSerializer } from '../../types/ModelSerializer'
+import { TransactionModel } from '../../types/TransactionModel'
+import { User } from '../../models/User'
 
 export class UserSerializer implements ModelSerializer {
   /* eslint-disable  @typescript-eslint/no-explicit-any */

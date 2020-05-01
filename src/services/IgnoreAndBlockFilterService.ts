@@ -1,7 +1,7 @@
-import { Transaction } from 'models/Transaction'
-import { PreferencesStorageServiceInterface } from 'types/PreferencesStorageServiceInterface'
-import { User } from 'models/User'
-import { IgnoreAndBlockFilterServiceInterface } from 'types/IgnoreAndBlockFilterServiceInterface'
+import { Transaction } from '../models/Transaction'
+import { PreferencesStorageServiceInterface } from '../types/PreferencesStorageServiceInterface'
+import { User } from '../models/User'
+import { IgnoreAndBlockFilterServiceInterface } from '../types/IgnoreAndBlockFilterServiceInterface'
 
 export class IgnoreAndBlockFilterService implements IgnoreAndBlockFilterServiceInterface {
   private preferencesStorageService: PreferencesStorageServiceInterface

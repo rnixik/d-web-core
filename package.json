@@ -1,6 +1,6 @@
 {
   "name": "d-web-core",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Transactions mechanism to implement web applications with distributed peer-to-peer storage",
   "scripts": {
     "test": "jest",
@@ -39,8 +39,5 @@
   },
   "files": [
     "lib/**/*"
-  ],
-  "exports": {
-    "./": "./lib/"
-  }
+  ]
 }

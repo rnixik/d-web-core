@@ -1,6 +1,6 @@
-import { TransactionModel } from 'types/TransactionModel'
-import { Signature } from 'models/Signature'
-import { User } from 'models/User'
+import { TransactionModel } from '../types/TransactionModel'
+import { Signature } from './Signature'
+import { User } from './User'
 
 export class Transaction {
   public creator: User

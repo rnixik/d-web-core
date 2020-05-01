@@ -1,4 +1,4 @@
-import { Transaction } from 'models/Transaction'
+import { Transaction } from '../models/Transaction'
 
 export interface TransactionSerializerInterface {
   /* eslint-disable  @typescript-eslint/no-explicit-any */

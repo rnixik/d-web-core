@@ -1,7 +1,7 @@
-import { Transaction } from 'models/Transaction'
-import { TransportServiceInterface } from 'types/TransportServiceInterface'
-import { TransactionSerializerInterface } from 'types/TransactionSerializerInterface'
-import { ConnectionPoolInterface } from 'types/ConnectionPoolInterface'
+import { Transaction } from '../models/Transaction'
+import { TransportServiceInterface } from '../types/TransportServiceInterface'
+import { TransactionSerializerInterface } from '../types/TransactionSerializerInterface'
+import { ConnectionPoolInterface } from '../types/ConnectionPoolInterface'
 
 export class TransportService implements TransportServiceInterface {
   private connectionPool: ConnectionPoolInterface

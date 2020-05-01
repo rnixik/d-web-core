@@ -1,13 +1,13 @@
-import { Transaction } from 'models/Transaction'
-import { User } from 'models/User'
-import { AuthenticatedUser } from 'models/AuthenticatedUser'
-import { Signature } from 'models/Signature'
-import { TransactionModel } from 'types/TransactionModel'
-import { CryptoServiceInterface } from 'types/CryptoServiceInterface'
-import { StorageServiceInterface } from 'types/StorageServiceInterface'
-import { TransportServiceInterface } from 'types/TransportServiceInterface'
-import { ValidatorServiceInterface } from 'types/ValidatorServiceInterface'
-import { IgnoreAndBlockFilterServiceInterface } from 'types/IgnoreAndBlockFilterServiceInterface'
+import { Transaction } from '../models/Transaction'
+import { User } from '../models/User'
+import { AuthenticatedUser } from '../models/AuthenticatedUser'
+import { Signature } from '../models/Signature'
+import { TransactionModel } from '../types/TransactionModel'
+import { CryptoServiceInterface } from '../types/CryptoServiceInterface'
+import { StorageServiceInterface } from '../types/StorageServiceInterface'
+import { TransportServiceInterface } from '../types/TransportServiceInterface'
+import { ValidatorServiceInterface } from '../types/ValidatorServiceInterface'
+import { IgnoreAndBlockFilterServiceInterface } from '../types/IgnoreAndBlockFilterServiceInterface'
 
 export class TransactionService {
   private transport: TransportServiceInterface

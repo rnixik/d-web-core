@@ -1,9 +1,9 @@
-import { Transaction } from 'models/Transaction'
-import { CryptoServiceInterface } from 'types/CryptoServiceInterface'
-import { ValidatorServiceInterface } from 'types/ValidatorServiceInterface'
-import { TransactionTypeResolverInterface } from 'types/TransactionTypeResolverInterface'
-import { User } from 'models/User'
-import { UserTransactionType } from 'transactions/User/UserTransactionType'
+import { Transaction } from '../models/Transaction'
+import { CryptoServiceInterface } from '../types/CryptoServiceInterface'
+import { ValidatorServiceInterface } from '../types/ValidatorServiceInterface'
+import { TransactionTypeResolverInterface } from '../types/TransactionTypeResolverInterface'
+import { User } from '../models/User'
+import { UserTransactionType } from '../transactions/User/UserTransactionType'
 
 export class ValidatorService implements ValidatorServiceInterface {
   private cryptoService: CryptoServiceInterface

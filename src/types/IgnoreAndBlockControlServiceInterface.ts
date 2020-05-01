@@ -1,5 +1,5 @@
-import { User } from 'models/User'
-import { PreferencesIgnoreAndBlock } from 'models/PreferencesIgnoreAndBlock'
+import { User } from '../models/User'
+import { PreferencesIgnoreAndBlock } from '../models/PreferencesIgnoreAndBlock'
 
 export interface IgnoreAndBlockControlServiceInterface {
   getPreferences (): PreferencesIgnoreAndBlock

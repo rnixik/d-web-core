@@ -1,10 +1,10 @@
-import { AuthenticatedUser } from 'models/AuthenticatedUser'
-import { TransactionService } from 'services/TransactionService'
-import { User } from 'models/User'
-import { UserTransactionType } from 'transactions/User/UserTransactionType'
-import { CryptoServiceInterface } from 'types/CryptoServiceInterface'
-import { UserServiceInterface } from 'types/UserServiceInterface'
-import { UserWithTransactions } from 'models/UserWithTransactions'
+import { AuthenticatedUser } from '../models/AuthenticatedUser'
+import { TransactionService } from './TransactionService'
+import { User } from '../models/User'
+import { UserTransactionType } from '../transactions/User/UserTransactionType'
+import { CryptoServiceInterface } from '../types/CryptoServiceInterface'
+import { UserServiceInterface } from '../types/UserServiceInterface'
+import { UserWithTransactions } from '../models/UserWithTransactions'
 
 export class UserService implements UserServiceInterface {
   private cryptoService: CryptoServiceInterface
