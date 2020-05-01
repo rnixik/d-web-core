@@ -6,18 +6,27 @@ import { ConnectionPoolInterface } from '../types/ConnectionPoolInterface'
 export class TransportService implements TransportServiceInterface {
   private connectionPool: ConnectionPoolInterface
   private transactionSerializer: TransactionSerializerInterface
+  private readonly namespace: string
   private onIncomingTransactionsCallbacks: ((transactions: Transaction[]) => void)[] = []
 
-  constructor (connectionPool: ConnectionPoolInterface, transactionSerializer: TransactionSerializerInterface) {
+  constructor (
+      connectionPool: ConnectionPoolInterface,
+      transactionSerializer: TransactionSerializerInterface,
+      namespace: string
+  ) {
     this.connectionPool = connectionPool
     this.transactionSerializer = transactionSerializer
+    this.namespace = namespace
 
     this.connectionPool.addOnMessageCallback((message: string, peerId: string) => {
       console.log('Incoming message', new Blob([message]).size, peerId)
       try {
         const data = JSON.parse(message)
-        if (!data || !data.type) {
+        if (!data || !data.ns || !data.type) {
           throw new Error('Cannot parse message')
+        }
+        if (data.ns !== this.namespace) {
+          throw new Error('Different namespace')
         }
         if (data.type === 'txs' && data.txsData && data.txsData.length) {
           const transactions = []
@@ -44,6 +53,7 @@ export class TransportService implements TransportServiceInterface {
     }
 
     const message = JSON.stringify({
+      ns: this.namespace,
       type: 'txs',
       txsData: serializedTransactions
     })
