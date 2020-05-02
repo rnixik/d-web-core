@@ -45,5 +45,52 @@ describe('IgnoreAndBlockFilterService', () => {
         whiteListsEnabled = false
         const filtered = filterService.filterBlocked(transactions)
         expect(filtered.length).toBe(8)
+        expect(filtered).not.toContain(transactions[0])
+        expect(filtered).not.toContain(transactions[1])
+    })
+
+    test('Filter blocked b0 w1', () => {
+        blackListsEnabled = false
+        whiteListsEnabled = true
+        const filtered = filterService.filterBlocked(transactions)
+        expect(filtered.length).toBe(2)
+        expect(filtered).toContain(transactions[2])
+        expect(filtered).toContain(transactions[3])
+    })
+
+    test('Filter blocked b1 w1', () => {
+        blackListsEnabled = true
+        whiteListsEnabled = true
+        const filtered = filterService.filterBlocked(transactions)
+        expect(filtered.length).toBe(2)
+        expect(filtered).toContain(transactions[2])
+        expect(filtered).toContain(transactions[3])
+    })
+
+    test('Filter ignored b1 w0', () => {
+        blackListsEnabled = true
+        whiteListsEnabled = false
+        const filtered = filterService.filterIgnored(transactions)
+        expect(filtered.length).toBe(8)
+        expect(filtered).not.toContain(transactions[4])
+        expect(filtered).not.toContain(transactions[5])
+    })
+
+    test('Filter ignored b0 w1', () => {
+        blackListsEnabled = false
+        whiteListsEnabled = true
+        const filtered = filterService.filterIgnored(transactions)
+        expect(filtered.length).toBe(2)
+        expect(filtered).toContain(transactions[6])
+        expect(filtered).toContain(transactions[7])
+    })
+
+    test('Filter ignored b1 w1', () => {
+        blackListsEnabled = true
+        whiteListsEnabled = true
+        const filtered = filterService.filterIgnored(transactions)
+        expect(filtered.length).toBe(2)
+        expect(filtered).toContain(transactions[6])
+        expect(filtered).toContain(transactions[7])
     })
 })
