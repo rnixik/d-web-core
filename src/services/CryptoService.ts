@@ -9,6 +9,7 @@ import { User } from '../models/User'
 import { TransactionTypeResolverInterface } from '../types/TransactionTypeResolverInterface'
 
 export class CryptoService implements CryptoServiceInterface {
+  public hashLength = 16
   private readonly transactionTypeResolver: TransactionTypeResolverInterface
 
   constructor (transactionTypeResolver: TransactionTypeResolverInterface) {
@@ -32,7 +33,7 @@ export class CryptoService implements CryptoServiceInterface {
 
     const str = JSON.stringify([creator, type, modelPayload])
     const hash = nacl.hash(util.decodeUTF8(str))
-    const shortHash = hash.slice(0, 16)
+    const shortHash = hash.slice(0, Math.min(this.hashLength, 32))
 
     return util.encodeBase64(shortHash)
   }
