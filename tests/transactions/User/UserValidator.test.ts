@@ -1,7 +1,7 @@
-import { UserValidator } from '../../src/transactions/User/UserValidator'
-import { User } from '../../src/models/User'
-import { Transaction } from '../../src/models/Transaction'
-import { UserTransactionType } from '../../src/transactions/User/UserTransactionType'
+import { UserValidator } from '../../../src/transactions/User/UserValidator'
+import { User } from '../../../src/models/User'
+import { Transaction } from '../../../src/models/Transaction'
+import { UserTransactionType } from '../../../src/transactions/User/UserTransactionType'
 
 const validator = new UserValidator()
 validator.loginMinLength = 3
