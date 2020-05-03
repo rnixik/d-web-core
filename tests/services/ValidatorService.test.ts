@@ -5,6 +5,7 @@ import { UserTransactionType } from '../../src/transactions/User/UserTransaction
 import { Transaction } from '../../src/models/Transaction'
 import { Signature } from '../../src/models/Signature'
 import { CryptoService } from '../../src/services/CryptoService'
+import { SpecificValidator } from '../../src/types/SpecificValidator'
 
 const typeResolver = new TransactionTypeResolver()
 const cryptoService = new CryptoService(typeResolver)
@@ -99,5 +100,75 @@ describe('Validator service', () => {
         expect(() => {
             validatorService.validateBase(storedTransactions, transaction)
         }).toThrow('Invalid signature')
+    })
+
+    test('Validate base - Creator of transactions not found', () => {
+        const otherCreator = new User('login-3', 'BxIJ+A3s2PgylmmFmRVFCuIEkmrTCO/WmD+FFcagLuw=')
+        const transaction = new Transaction(
+            otherCreator,
+            'test',
+            creator2,
+            'hash-3'
+        )
+        transaction.signatures = [
+            new Signature('signature-3', otherCreator.publicKey)
+        ]
+
+        jest.spyOn(cryptoService, 'calculateTransactionHash')
+            .mockImplementation(() => 'hash-3')
+        jest.spyOn(cryptoService, 'verifySignature')
+            .mockImplementation(() => true)
+
+        expect(() => {
+            validatorService.validateBase(storedTransactions, transaction)
+        }).toThrow('Creator of transactions not found')
+    })
+
+    test('Validate base - Login mismatch of creator', () => {
+        const otherCreator = new User(
+            'login-3',
+            creator1.publicKey
+        )
+        const transaction = new Transaction(
+            otherCreator,
+            'test',
+            creator2,
+            'hash-3'
+        )
+        transaction.signatures = [
+            new Signature('signature-3', otherCreator.publicKey)
+        ]
+
+        jest.spyOn(cryptoService, 'calculateTransactionHash')
+            .mockImplementation(() => 'hash-3')
+        jest.spyOn(cryptoService, 'verifySignature')
+            .mockImplementation(() => true)
+
+        expect(() => {
+            validatorService.validateBase(storedTransactions, transaction)
+        }).toThrow('Login mismatch of creator')
+    })
+
+    test('Calls specific validate', () => {
+        const transaction = new Transaction(
+            creator1,
+            'test',
+            creator2,
+            'hash'
+        )
+
+        class TestValidator implements SpecificValidator {
+            validate(storedTransactions: Transaction[], tx: Transaction): Promise<void> {
+                return Promise.resolve(undefined)
+            }
+        }
+        const testSpecificValidator = new TestValidator()
+        const spy = jest.spyOn(testSpecificValidator, 'validate')
+
+        typeResolver.setSpecificValidator('test', testSpecificValidator)
+        const validatorService = new ValidatorService(cryptoService, typeResolver)
+
+        validatorService.validateSpecific(storedTransactions, transaction)
+        expect(spy).toHaveBeenCalledTimes(1)
     })
 })
