@@ -1,10 +1,10 @@
 import { CryptoService } from '../../src/services/CryptoService'
 import { TransactionTypeResolver } from '../../src/services/TransactionTypeResolver'
 import { AuthenticatedUser } from '../../src/models/AuthenticatedUser'
-import {User} from "../../src/models/User";
-import {UserTransactionType} from "../../src/transactions/User/UserTransactionType";
-import {Transaction} from "../../src/models/Transaction";
-import {Signature} from "../../src/models/Signature";
+import { User } from '../../src/models/User'
+import { UserTransactionType } from '../../src/transactions/User/UserTransactionType'
+import { Transaction } from '../../src/models/Transaction'
+import { Signature } from '../../src/models/Signature'
 
 const typeResolver = new TransactionTypeResolver()
 const cryptoService = new CryptoService(typeResolver)
