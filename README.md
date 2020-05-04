@@ -1,8 +1,18 @@
 # D-WEB-CORE
 
-Users, transactions, validations and storage for distributed web applications
+Users, transactions, validations and storage for decentralized web applications
 
-See demo distributed web application [https://github.com/rnixik/d-web-radio](https://github.com/rnixik/d-web-radio)
+See demo decentralized web application [https://github.com/rnixik/d-web-radio](https://github.com/rnixik/d-web-radio)
+
+## Problems and solutions
+
+* Use service without installing desktop applications - web application.
+* Use service without installing browser extensions - plain javascript applications.
+* Do not pay for application servers - users connect peer-to-peer.
+* Do not pay for data base servers - data stored on peers.
+* Do not trust any subset of users - the same data validated and stored 
+  on every peer by the same rules for every peer (decentralized application).
+* Have ability to overcome cheating and flooding - block and ignore users.
 
 ## User
 
