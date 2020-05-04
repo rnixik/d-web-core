@@ -23,6 +23,9 @@ Peers exchange data wrapped into transactions.
 Each transaction has payload data, information about the creator of transaction,
 crypto-hash of transaction and signatures of this transaction by the creator and other users.
 
+The main purpose of signing a transaction created by other user is providing information
+about the number of users who has saved this transaction.
+
 Data stored in LocalStorage.
 
 Before saving any transaction on any peer it should be validated by set of rules 
