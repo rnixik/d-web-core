@@ -46,6 +46,9 @@ To exchange an entity in a transaction it should be represented by:
 
 Serializer and Validator should be registered in `TransactionTypeResolver`.
 
+See `models/User`, `transactions/User/UserTransactionType`, 
+`transactions/User/UserSerializer`, `transactions/User/UserValidator` for a reference.
+
 ## Components
 
 This section describes the main components of the core.
