@@ -14,7 +14,11 @@ See demo decentralized web application [https://github.com/rnixik/d-web-radio](h
   on every peer by the same rules for every peer (decentralized application).
 * Have ability to overcome cheating and flooding - block and ignore users.
 
-## User
+## Components
+
+This section describes the main components of the core.
+
+### User
 
 `User` implements `TransactionModel` interface. 
 It means it can be stored and sent as part of Transaction.
@@ -31,7 +35,7 @@ It does not validate uniqueness of login.
 
 `AuthenticatedUser` should be used to work with private key.
 
-## AuthenticatedUser
+### AuthenticatedUser
 
 A user registers with a login and password.
 The core generates private / public key pair based on the login and password.
