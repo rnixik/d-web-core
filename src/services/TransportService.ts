@@ -1,24 +1,24 @@
 import { Transaction } from '../models/Transaction'
 import { TransportServiceInterface } from '../types/TransportServiceInterface'
 import { TransactionSerializerInterface } from '../types/TransactionSerializerInterface'
-import { ConnectionPoolInterface } from '../types/ConnectionPoolInterface'
+import { ConnectionsPoolInterface } from '../types/ConnectionsPoolInterface'
 
 export class TransportService implements TransportServiceInterface {
-  private connectionPool: ConnectionPoolInterface
+  private connectionsPool: ConnectionsPoolInterface
   private transactionSerializer: TransactionSerializerInterface
   private readonly namespace: string
   private onIncomingTransactionsCallbacks: ((transactions: Transaction[]) => void)[] = []
 
   constructor (
-      connectionPool: ConnectionPoolInterface,
+      connectionsPool: ConnectionsPoolInterface,
       transactionSerializer: TransactionSerializerInterface,
       namespace: string
   ) {
-    this.connectionPool = connectionPool
+    this.connectionsPool = connectionsPool
     this.transactionSerializer = transactionSerializer
     this.namespace = namespace
 
-    this.connectionPool.addOnMessageCallback((message: string, peerId: string) => {
+    this.connectionsPool.addOnMessageCallback((message: string, peerId: string) => {
       console.log('Incoming message', new Blob([message]).size, peerId)
       try {
         const data = JSON.parse(message)
@@ -57,7 +57,7 @@ export class TransportService implements TransportServiceInterface {
       type: 'txs',
       txsData: serializedTransactions
     })
-    this.connectionPool.sendMessage(message)
+    this.connectionsPool.sendMessage(message)
   }
 
   public addOnIncomingTransactionsCallback (callback: (transactions: Transaction[]) => void): void {
