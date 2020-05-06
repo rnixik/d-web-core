@@ -11,7 +11,7 @@ import { IgnoreAndBlockControlService } from './services/IgnoreAndBlockControlSe
 import { ConnectionsPoolInterface } from './types/ConnectionsPoolInterface'
 import {Transaction} from "./models/Transaction";
 
-export class RegularApplication {
+export class RegularDecentralizedApplication {
     public readonly namespace: string
     public readonly connectionsPool: ConnectionsPoolInterface
     public readonly maxSignaturesNumber: number

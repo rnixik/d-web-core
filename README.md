@@ -97,6 +97,16 @@ const authenticatedUser = new AuthenticatedUser(...)
 const user = authenticatedUser.getPublicUser()
 ```
 
+## How to start
+
+It is possible to build components of the core manually,
+but there is `RegularDecentralizedApplication` which
+brings up together the main system parts.
+
+This package does not contain any network connection implementation.
+It is possible to use [webrtc-connection](https://github.com/rnixik/webrtc-connection).
+That package provides signaling and manual ways of WebRTC communication.
+
 ## License
 
     The MIT License
