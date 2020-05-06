@@ -56,7 +56,7 @@ export class RegularApplication {
         this.userService = new UserService(this.cryptoService, this.transactionService)
     }
 
-    public start (
+    public startNetworking (
         onNewTransactionsCallback: (newTransactions: Transaction[], storedTransactions: Transaction[]) => void,
         broadcastInterval: number
     ): void {
