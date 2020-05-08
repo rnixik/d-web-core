@@ -54,10 +54,17 @@ export class TransactionService {
     return this.ignoreAndBlockFilterService.filterIgnored(allTransactions)
   }
 
-  public async signAndSend (sender: AuthenticatedUser, transaction: Transaction): Promise<void> {
+  public signAndSend (sender: AuthenticatedUser, transaction: Transaction): void {
     const signedTx = this.cryptoService.signTransaction(sender, transaction)
     this.transport.send([signedTx])
-    await this.handleIncomingTransactions([signedTx])
+
+    const newStoredTransactions = this.storageService.storeTransactions([signedTx])
+    if (newStoredTransactions.length) {
+      this.notifyContextAboutNewTransactions(
+          newStoredTransactions,
+          this.storageService.getTransactions()
+      )
+    }
   }
 
   public addOnNewTransactionsCallback (callback: (newTransactions: Transaction[], storedTransactions: Transaction[]) => void): void {
