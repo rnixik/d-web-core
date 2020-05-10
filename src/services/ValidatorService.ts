@@ -30,7 +30,7 @@ export class ValidatorService implements ValidatorServiceInterface {
     }
 
     if (tx.type !== UserTransactionType.t) {
-      const storedUser = this.getUserByPublicKey(storedTransactions, tx.creator.publicKey)
+      const storedUser = ValidatorService.getUserByPublicKey(storedTransactions, tx.creator.publicKey)
       if (!storedUser) {
         throw new Error('Creator of transactions not found')
       }
@@ -51,7 +51,7 @@ export class ValidatorService implements ValidatorServiceInterface {
     await specificValidator.validate(storedTransactions, tx)
   }
 
-  private getUserByPublicKey (storedTransactions: Transaction[], publicKey: string): User | null {
+  private static getUserByPublicKey (storedTransactions: Transaction[], publicKey: string): User | null {
     for (const tx of storedTransactions) {
       if (tx.type !== UserTransactionType.t) {
         continue

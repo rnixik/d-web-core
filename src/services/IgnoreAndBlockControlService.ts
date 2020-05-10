@@ -10,84 +10,87 @@ export class IgnoreAndBlockControlService implements IgnoreAndBlockControlServic
     this.preferencesStorageService = preferencesStorageService
   }
 
-  public getPreferences (): PreferencesIgnoreAndBlock {
-    return this.preferencesStorageService.getPreferencesIgnoreAndBlock()
+  public async getPreferences (): Promise<PreferencesIgnoreAndBlock> {
+    return await this.preferencesStorageService.getPreferencesIgnoreAndBlock()
   }
 
-  public addUserToBlockWhiteList (user: User): void {
-    const preferences = this.preferencesStorageService.getPreferencesIgnoreAndBlock()
+  public async addUserToBlockWhiteList (user: User): Promise<void> {
+    const preferences = await this.preferencesStorageService.getPreferencesIgnoreAndBlock()
     preferences.blockWhiteList.push(user)
-    this.preferencesStorageService.storePreferencesIgnoreAndBlock(preferences)
+    await this.preferencesStorageService.storePreferencesIgnoreAndBlock(preferences)
   }
-  public addUserToBlockBlackList (user: User): void {
-    const preferences = this.preferencesStorageService.getPreferencesIgnoreAndBlock()
+  public async addUserToBlockBlackList (user: User): Promise<void> {
+    const preferences = await this.preferencesStorageService.getPreferencesIgnoreAndBlock()
     preferences.blockBlackList.push(user)
-    this.preferencesStorageService.storePreferencesIgnoreAndBlock(preferences)
+    await this.preferencesStorageService.storePreferencesIgnoreAndBlock(preferences)
   }
-  public addUserToIgnoreWhiteList (user: User): void {
-    const preferences = this.preferencesStorageService.getPreferencesIgnoreAndBlock()
+  public async addUserToIgnoreWhiteList (user: User): Promise<void> {
+    const preferences = await this.preferencesStorageService.getPreferencesIgnoreAndBlock()
     preferences.ignoreWhiteList.push(user)
-    this.preferencesStorageService.storePreferencesIgnoreAndBlock(preferences)
+    await this.preferencesStorageService.storePreferencesIgnoreAndBlock(preferences)
   }
-  public addUserToIgnoreBlackList (user: User): void {
-    const preferences = this.preferencesStorageService.getPreferencesIgnoreAndBlock()
+  public async addUserToIgnoreBlackList (user: User): Promise<void> {
+    const preferences = await this.preferencesStorageService.getPreferencesIgnoreAndBlock()
     preferences.ignoreBlackList.push(user)
-    this.preferencesStorageService.storePreferencesIgnoreAndBlock(preferences)
+    await this.preferencesStorageService.storePreferencesIgnoreAndBlock(preferences)
   }
 
-  public removeUserFromBlockWhiteList (user: User): void {
-    const preferences = this.preferencesStorageService.getPreferencesIgnoreAndBlock()
+  public async removeUserFromBlockWhiteList (user: User): Promise<void> {
+    const preferences = await this.preferencesStorageService.getPreferencesIgnoreAndBlock()
     preferences.blockWhiteList = preferences.blockWhiteList.filter((iu) => {
       return iu.publicKey !== user.publicKey
     })
-    this.preferencesStorageService.storePreferencesIgnoreAndBlock(preferences)
+    await this.preferencesStorageService.storePreferencesIgnoreAndBlock(preferences)
   }
-  public removeUserFromBlockBlackList (user: User): void {
-    const preferences = this.preferencesStorageService.getPreferencesIgnoreAndBlock()
+  public async removeUserFromBlockBlackList (user: User): Promise<void> {
+    const preferences = await this.preferencesStorageService.getPreferencesIgnoreAndBlock()
     preferences.blockBlackList = preferences.blockBlackList.filter((iu) => {
       return iu.publicKey !== user.publicKey
     })
-    this.preferencesStorageService.storePreferencesIgnoreAndBlock(preferences)
+    await this.preferencesStorageService.storePreferencesIgnoreAndBlock(preferences)
   }
-  public removeUserFromIgnoreWhiteList (user: User): void {
-    const preferences = this.preferencesStorageService.getPreferencesIgnoreAndBlock()
+  public async removeUserFromIgnoreWhiteList (user: User): Promise<void> {
+    const preferences = await this.preferencesStorageService.getPreferencesIgnoreAndBlock()
     preferences.ignoreWhiteList = preferences.ignoreWhiteList.filter((iu) => {
       return iu.publicKey !== user.publicKey
     })
-    this.preferencesStorageService.storePreferencesIgnoreAndBlock(preferences)
+    await this.preferencesStorageService.storePreferencesIgnoreAndBlock(preferences)
   }
-  public removeUserFromIgnoreBlackList (user: User): void {
-    const preferences = this.preferencesStorageService.getPreferencesIgnoreAndBlock()
+  public async removeUserFromIgnoreBlackList (user: User): Promise<void> {
+    const preferences = await this.preferencesStorageService.getPreferencesIgnoreAndBlock()
     preferences.ignoreBlackList = preferences.ignoreBlackList.filter((iu) => {
       return iu.publicKey !== user.publicKey
     })
-    this.preferencesStorageService.storePreferencesIgnoreAndBlock(preferences)
+    await this.preferencesStorageService.storePreferencesIgnoreAndBlock(preferences)
   }
 
-  setBlockWhiteListEnabled (enabled: boolean): void {
-    const preferences = this.preferencesStorageService.getPreferencesIgnoreAndBlock()
+  public async setBlockWhiteListEnabled (enabled: boolean): Promise<void> {
+    const preferences = await this.preferencesStorageService.getPreferencesIgnoreAndBlock()
     preferences.isBlockWhiteListEnabled = enabled
     if (enabled) {
       preferences.isBlockBlackListEnabled = false
     }
-    this.preferencesStorageService.storePreferencesIgnoreAndBlock(preferences)
+    await this.preferencesStorageService.storePreferencesIgnoreAndBlock(preferences)
   }
-  setBlockBlackListEnabled (enabled: boolean): void {
-    const preferences = this.preferencesStorageService.getPreferencesIgnoreAndBlock()
+
+  public async setBlockBlackListEnabled (enabled: boolean): Promise<void> {
+    const preferences = await this.preferencesStorageService.getPreferencesIgnoreAndBlock()
     preferences.isBlockBlackListEnabled = enabled
-    this.preferencesStorageService.storePreferencesIgnoreAndBlock(preferences)
+    await this.preferencesStorageService.storePreferencesIgnoreAndBlock(preferences)
   }
-  setIgnoreWhiteListEnabled (enabled: boolean): void {
-    const preferences = this.preferencesStorageService.getPreferencesIgnoreAndBlock()
+
+  public async setIgnoreWhiteListEnabled (enabled: boolean): Promise<void> {
+    const preferences = await this.preferencesStorageService.getPreferencesIgnoreAndBlock()
     preferences.isIgnoreWhiteListEnabled = enabled
     if (enabled) {
       preferences.isIgnoreBlackListEnabled = false
     }
-    this.preferencesStorageService.storePreferencesIgnoreAndBlock(preferences)
+    await this.preferencesStorageService.storePreferencesIgnoreAndBlock(preferences)
   }
-  setIgnoreBlackListEnabled (enabled: boolean): void {
-    const preferences = this.preferencesStorageService.getPreferencesIgnoreAndBlock()
+
+  public async setIgnoreBlackListEnabled (enabled: boolean): Promise<void> {
+    const preferences = await this.preferencesStorageService.getPreferencesIgnoreAndBlock()
     preferences.isIgnoreBlackListEnabled = enabled
-    this.preferencesStorageService.storePreferencesIgnoreAndBlock(preferences)
+    await this.preferencesStorageService.storePreferencesIgnoreAndBlock(preferences)
   }
 }

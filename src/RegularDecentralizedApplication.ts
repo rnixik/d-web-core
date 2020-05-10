@@ -11,6 +11,7 @@ import { IgnoreAndBlockControlService } from './services/IgnoreAndBlockControlSe
 import { ConnectionsPoolInterface } from './types/ConnectionsPoolInterface'
 import {Transaction} from "./models/Transaction";
 
+// noinspection JSUnusedGlobalSymbols
 export class RegularDecentralizedApplication {
     public readonly namespace: string
     public readonly connectionsPool: ConnectionsPoolInterface
@@ -56,6 +57,7 @@ export class RegularDecentralizedApplication {
         this.userService = new UserService(this.cryptoService, this.transactionService)
     }
 
+    // noinspection JSUnusedGlobalSymbols
     public startNetworking (
         onNewTransactionsCallback: (newTransactions: Transaction[], storedTransactions: Transaction[]) => void,
         broadcastInterval: number
@@ -63,8 +65,8 @@ export class RegularDecentralizedApplication {
         this.transactionService.addOnNewTransactionsCallback(onNewTransactionsCallback)
 
         const transactionService = this.transactionService
-        window.setInterval(() => {
-            transactionService.broadcastTransactions()
+        window.setInterval(async () => {
+            await transactionService.broadcastTransactions()
         }, broadcastInterval)
     }
 }

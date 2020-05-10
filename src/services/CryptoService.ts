@@ -1,3 +1,4 @@
+// noinspection SpellCheckingInspection
 import nacl, { SignKeyPair } from 'tweetnacl'
 import util from 'tweetnacl-util'
 import { AuthenticatedUser } from '../models/AuthenticatedUser'

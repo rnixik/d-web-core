@@ -16,7 +16,7 @@ export class TransactionService {
   private cryptoService: CryptoServiceInterface
   private ignoreAndBlockFilterService: IgnoreAndBlockFilterServiceInterface
   private onNewTransactionsCallbacks: ((newTransactions: Transaction[], storedTransactions: Transaction[]) => void)[] = []
-  private maxSignaturesNumber = 0
+  private readonly maxSignaturesNumber = 0
 
   constructor (
     cryptoService: CryptoServiceInterface,
@@ -33,36 +33,36 @@ export class TransactionService {
     this.ignoreAndBlockFilterService = ignoreAndBlockFilterService
     this.maxSignaturesNumber = maxSignaturesNumber
 
-    this.transport.addOnIncomingTransactionsCallback((transactions) => {
-      this.handleIncomingTransactions(transactions)
+    this.transport.addOnIncomingTransactionsCallback(async (transactions) => {
+      await this.handleIncomingTransactions(transactions)
     })
   }
 
   public async createTransaction (creator: User, type: string, model: TransactionModel): Promise<Transaction> {
     const hash = this.cryptoService.calculateTransactionHash(creator, type, model)
     const transaction = new Transaction(creator, type, model, hash)
-    await this.validator.validateSpecific(this.getTransactions(), transaction)
+    await this.validator.validateSpecific(await this.getTransactions(), transaction)
 
     return transaction
   }
 
-  public getTransactions (removeIgnored = false): Transaction[] {
-    const allTransactions = this.storageService.getTransactions()
+  public async getTransactions (removeIgnored = false): Promise<Transaction[]> {
+    const allTransactions = await this.storageService.getTransactions()
     if (!removeIgnored) {
       return allTransactions
     }
-    return this.ignoreAndBlockFilterService.filterIgnored(allTransactions)
+    return await this.ignoreAndBlockFilterService.filterIgnored(allTransactions)
   }
 
-  public signAndSend (sender: AuthenticatedUser, transaction: Transaction): void {
+  public async signAndSend (sender: AuthenticatedUser, transaction: Transaction): Promise<void> {
     const signedTx = this.cryptoService.signTransaction(sender, transaction)
     this.transport.send([signedTx])
 
-    const newStoredTransactions = this.storageService.storeTransactions([signedTx])
+    const newStoredTransactions = await this.storageService.storeTransactions([signedTx])
     if (newStoredTransactions.length) {
-      this.notifyContextAboutNewTransactions(
+      await this.notifyContextAboutNewTransactions(
           newStoredTransactions,
-          this.storageService.getTransactions()
+          await this.storageService.getTransactions()
       )
     }
   }
@@ -71,28 +71,29 @@ export class TransactionService {
     this.onNewTransactionsCallbacks.push(callback)
   }
 
-  public broadcastTransactions (): void {
-    const storedTransactions = this.storageService.getTransactions()
+  public async broadcastTransactions (): Promise<void> {
+    const storedTransactions = await this.storageService.getTransactions()
     this.transport.send(storedTransactions)
   }
 
-  public filterAndStoreStoredTransactions (): void {
-    const storedTransactions = this.storageService.getTransactions()
-    const filteredTransactions = this.ignoreAndBlockFilterService.filterBlocked(storedTransactions)
-    this.storageService.replaceAllTransactions(filteredTransactions)
+  // noinspection JSUnusedGlobalSymbols
+  public async filterAndStoreStoredTransactions (): Promise<void> {
+    const storedTransactions = await this.storageService.getTransactions()
+    const filteredTransactions = await this.ignoreAndBlockFilterService.filterBlocked(storedTransactions)
+    await this.storageService.replaceAllTransactions(filteredTransactions)
   }
 
   private async handleIncomingTransactions (incomingTransactions: Transaction[]): Promise<void> {
-    const storedTransactions = this.storageService.getTransactions()
+    const storedTransactions = await this.storageService.getTransactions()
     const transactionsToStore: Transaction[] = []
 
-    incomingTransactions = this.ignoreAndBlockFilterService.filterBlocked(incomingTransactions)
+    incomingTransactions = await this.ignoreAndBlockFilterService.filterBlocked(incomingTransactions)
 
     for (const incomingTx of incomingTransactions) {
       let txWasStored = false
       for (const storedTx of storedTransactions) {
         if (incomingTx.hash === storedTx.hash) {
-          this.updateStoredTransactionFromIncoming(storedTx, incomingTx)
+          await this.updateStoredTransactionFromIncoming(storedTx, incomingTx)
           txWasStored = true
           break
         }
@@ -116,14 +117,14 @@ export class TransactionService {
     }
 
     if (transactionsToStore.length) {
-      const newStoredTransactions = this.storageService.storeTransactions(transactionsToStore)
+      const newStoredTransactions = await this.storageService.storeTransactions(transactionsToStore)
       if (newStoredTransactions.length) {
-        this.notifyContextAboutNewTransactions(newStoredTransactions, storedTransactions)
+        await this.notifyContextAboutNewTransactions(newStoredTransactions, storedTransactions)
       }
     }
   }
 
-  private updateStoredTransactionFromIncoming (storedTx: Transaction, incomingTx: Transaction): void {
+  private async updateStoredTransactionFromIncoming (storedTx: Transaction, incomingTx: Transaction): Promise<void> {
     const signatures = storedTx.signatures.concat(incomingTx.signatures)
     /* eslint-disable  @typescript-eslint/no-explicit-any */
     const publicKeys: any = {}
@@ -138,13 +139,13 @@ export class TransactionService {
       uniqueSignatures = uniqueSignatures.slice(0, this.maxSignaturesNumber)
     }
     if (uniqueSignatures.length > storedTx.signatures.length) {
-      this.storageService.storeTransactionSignatures(storedTx, uniqueSignatures)
+      await this.storageService.storeTransactionSignatures(storedTx, uniqueSignatures)
     }
   }
 
-  private notifyContextAboutNewTransactions (newTransactions: Transaction[], storedTransactions: Transaction[]): void {
-    newTransactions = this.ignoreAndBlockFilterService.filterIgnored(newTransactions)
-    storedTransactions = this.ignoreAndBlockFilterService.filterIgnored(storedTransactions)
+  private async notifyContextAboutNewTransactions (newTransactions: Transaction[], storedTransactions: Transaction[]): Promise<void> {
+    newTransactions = await this.ignoreAndBlockFilterService.filterIgnored(newTransactions)
+    storedTransactions = await this.ignoreAndBlockFilterService.filterIgnored(storedTransactions)
     for (const callback of this.onNewTransactionsCallbacks) {
       callback(newTransactions, storedTransactions)
     }

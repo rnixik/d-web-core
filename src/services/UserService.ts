@@ -22,7 +22,7 @@ export class UserService implements UserServiceInterface {
     const authenticatedUser = this.cryptoService.getUserByLoginAndPassword(login, password)
     const publicUser = authenticatedUser.getPublicUser()
     const transaction = await this.transactionService.createTransaction(publicUser, UserTransactionType.t, publicUser)
-    this.transactionService.signAndSend(authenticatedUser, transaction)
+    await this.transactionService.signAndSend(authenticatedUser, transaction)
 
     return authenticatedUser
   }
@@ -37,6 +37,7 @@ export class UserService implements UserServiceInterface {
     return authenticatedUser
   }
 
+  // noinspection JSUnusedGlobalSymbols
   public getUsersWithTransactions (removeIgnored: boolean): UserWithTransactions[] {
     const usersWithTransactions: UserWithTransactions[] = []
     const allTransactions = this.transactionService.getTransactions(removeIgnored)

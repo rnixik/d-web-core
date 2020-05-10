@@ -10,8 +10,8 @@ export class IgnoreAndBlockFilterService implements IgnoreAndBlockFilterServiceI
     this.preferencesStorageService = preferencesStorageService
   }
 
-  public filterBlocked (transactions: Transaction[]): Transaction[] {
-    const preferencesIgnoreAndBlock = this.preferencesStorageService.getPreferencesIgnoreAndBlock()
+  public async filterBlocked (transactions: Transaction[]): Promise<Transaction[]> {
+    const preferencesIgnoreAndBlock = await this.preferencesStorageService.getPreferencesIgnoreAndBlock()
 
     if (preferencesIgnoreAndBlock.isBlockWhiteListEnabled) {
       return IgnoreAndBlockFilterService.filterWhiteList(transactions, preferencesIgnoreAndBlock.blockWhiteList)
@@ -24,8 +24,8 @@ export class IgnoreAndBlockFilterService implements IgnoreAndBlockFilterServiceI
     return transactions
   }
 
-  public filterIgnored (transactions: Transaction[]): Transaction[] {
-    const preferencesIgnoreAndBlock = this.preferencesStorageService.getPreferencesIgnoreAndBlock()
+  public async filterIgnored (transactions: Transaction[]): Promise<Transaction[]> {
+    const preferencesIgnoreAndBlock = await this.preferencesStorageService.getPreferencesIgnoreAndBlock()
 
     if (preferencesIgnoreAndBlock.isIgnoreWhiteListEnabled) {
       return IgnoreAndBlockFilterService.filterWhiteList(transactions, preferencesIgnoreAndBlock.ignoreWhiteList)

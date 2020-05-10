@@ -23,9 +23,11 @@ export class TransportService implements TransportServiceInterface {
       try {
         const data = JSON.parse(message)
         if (!data || !data.ns || !data.type) {
+          // noinspection ExceptionCaughtLocallyJS
           throw new Error('Cannot parse message')
         }
         if (data.ns !== this.namespace) {
+          // noinspection ExceptionCaughtLocallyJS
           throw new Error('Different namespace')
         }
         if (data.type === 'txs' && data.txsData && data.txsData.length) {

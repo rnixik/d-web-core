@@ -20,7 +20,7 @@ for (let i = 0; i < 10; i += 1) {
 }
 
 class MockPreferencesStorageService implements PreferencesStorageServiceInterface {
-    getPreferencesIgnoreAndBlock(): PreferencesIgnoreAndBlock {
+    public async getPreferencesIgnoreAndBlock (): Promise<PreferencesIgnoreAndBlock> {
         return new PreferencesIgnoreAndBlock(
             [users[0], users[1]],
             [users[2], users[3]],
@@ -33,62 +33,62 @@ class MockPreferencesStorageService implements PreferencesStorageServiceInterfac
         )
     }
 
-    storePreferencesIgnoreAndBlock(preferences: PreferencesIgnoreAndBlock): void {
+    public async storePreferencesIgnoreAndBlock(preferences: PreferencesIgnoreAndBlock): Promise<void> {
     }
 }
 
 const filterService = new IgnoreAndBlockFilterService(new MockPreferencesStorageService())
 
 describe('IgnoreAndBlockFilterService', () => {
-    test('Filter blocked b1 w0', () => {
+    test('Filter blocked b1 w0', async () => {
         blackListsEnabled = true
         whiteListsEnabled = false
-        const filtered = filterService.filterBlocked(transactions)
+        const filtered = await filterService.filterBlocked(transactions)
         expect(filtered.length).toBe(8)
         expect(filtered).not.toContain(transactions[0])
         expect(filtered).not.toContain(transactions[1])
     })
 
-    test('Filter blocked b0 w1', () => {
+    test('Filter blocked b0 w1', async () => {
         blackListsEnabled = false
         whiteListsEnabled = true
-        const filtered = filterService.filterBlocked(transactions)
+        const filtered = await filterService.filterBlocked(transactions)
         expect(filtered.length).toBe(2)
         expect(filtered).toContain(transactions[2])
         expect(filtered).toContain(transactions[3])
     })
 
-    test('Filter blocked b1 w1', () => {
+    test('Filter blocked b1 w1', async () => {
         blackListsEnabled = true
         whiteListsEnabled = true
-        const filtered = filterService.filterBlocked(transactions)
+        const filtered = await filterService.filterBlocked(transactions)
         expect(filtered.length).toBe(2)
         expect(filtered).toContain(transactions[2])
         expect(filtered).toContain(transactions[3])
     })
 
-    test('Filter ignored b1 w0', () => {
+    test('Filter ignored b1 w0', async () => {
         blackListsEnabled = true
         whiteListsEnabled = false
-        const filtered = filterService.filterIgnored(transactions)
+        const filtered = await filterService.filterIgnored(transactions)
         expect(filtered.length).toBe(8)
         expect(filtered).not.toContain(transactions[4])
         expect(filtered).not.toContain(transactions[5])
     })
 
-    test('Filter ignored b0 w1', () => {
+    test('Filter ignored b0 w1', async () => {
         blackListsEnabled = false
         whiteListsEnabled = true
-        const filtered = filterService.filterIgnored(transactions)
+        const filtered = await filterService.filterIgnored(transactions)
         expect(filtered.length).toBe(2)
         expect(filtered).toContain(transactions[6])
         expect(filtered).toContain(transactions[7])
     })
 
-    test('Filter ignored b1 w1', () => {
+    test('Filter ignored b1 w1', async () => {
         blackListsEnabled = true
         whiteListsEnabled = true
-        const filtered = filterService.filterIgnored(transactions)
+        const filtered = await filterService.filterIgnored(transactions)
         expect(filtered.length).toBe(2)
         expect(filtered).toContain(transactions[6])
         expect(filtered).toContain(transactions[7])

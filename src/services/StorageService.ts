@@ -17,8 +17,8 @@ export class StorageService implements StorageServiceInterface, PreferencesStora
     this.transactionSerializer = transactionSerializer
   }
 
-  public storeTransactions (transactions: Transaction[]): Transaction[] {
-    const storedTransactions = this.getTransactions()
+  public async storeTransactions (transactions: Transaction[]): Promise<Transaction[]> {
+    const storedTransactions = await this.getTransactions()
     const storedHashIndex = new Map()
     for (const tx of storedTransactions) {
       storedHashIndex.set(tx.hash, true)
@@ -35,23 +35,23 @@ export class StorageService implements StorageServiceInterface, PreferencesStora
       }
     }
 
-    this.replaceAllTransactions(transactionsToStore)
+    await this.replaceAllTransactions(transactionsToStore)
 
     return newStored
   }
 
-  public storeTransactionSignatures (transaction: Transaction, signatures: Signature[]): void {
-    const transactions = this.getTransactions()
+  public async storeTransactionSignatures (transaction: Transaction, signatures: Signature[]): Promise<void> {
+    const transactions = await this.getTransactions()
     for (let i = 0; i < transactions.length; i++) {
       if (transactions[i].hash === transaction.hash) {
         transactions[i].signatures = signatures
       }
     }
 
-    this.replaceAllTransactions(transactions)
+    await this.replaceAllTransactions(transactions)
   }
 
-  public getTransactions (): Transaction[] {
+  public async getTransactions (): Promise<Transaction[]> {
     const transactionsString = localStorage.getItem(this.namespace + ':' + StorageService.STORAGE_KEY_TRANSACTIONS)
     if (!transactionsString) {
       return []
@@ -74,7 +74,7 @@ export class StorageService implements StorageServiceInterface, PreferencesStora
     return transactions
   }
 
-  public getPreferencesIgnoreAndBlock (): PreferencesIgnoreAndBlock {
+  public async getPreferencesIgnoreAndBlock (): Promise<PreferencesIgnoreAndBlock> {
     const str = localStorage.getItem(this.namespace + ':' + StorageService.STORAGE_KEY_PREFERENCES)
     if (!str) {
       return new PreferencesIgnoreAndBlock(
@@ -91,11 +91,11 @@ export class StorageService implements StorageServiceInterface, PreferencesStora
     return JSON.parse(str) as PreferencesIgnoreAndBlock
   }
 
-  public storePreferencesIgnoreAndBlock (preferences: PreferencesIgnoreAndBlock): void {
+  public async storePreferencesIgnoreAndBlock (preferences: PreferencesIgnoreAndBlock): Promise<void> {
     localStorage.setItem(this.namespace + ':' + StorageService.STORAGE_KEY_PREFERENCES, JSON.stringify(preferences))
   }
 
-  public replaceAllTransactions (transactions: Transaction[]): void {
+  public async replaceAllTransactions (transactions: Transaction[]): Promise<void> {
     const serialized = []
     for (const tx of transactions) {
       serialized.push(this.transactionSerializer.transactionToData(tx, true))
@@ -104,6 +104,7 @@ export class StorageService implements StorageServiceInterface, PreferencesStora
     localStorage.setItem(this.namespace + ':' + StorageService.STORAGE_KEY_TRANSACTIONS, JSON.stringify(serialized))
   }
 
+  // noinspection JSUnusedGlobalSymbols
   public getUsedStorageSpace (): number {
     let transactionsSpace = 0
     const transactionsString = localStorage.getItem(this.namespace + ':' + StorageService.STORAGE_KEY_TRANSACTIONS)
