@@ -16,7 +16,7 @@ export class TransactionService {
   private cryptoService: CryptoServiceInterface
   private ignoreAndBlockFilterService: IgnoreAndBlockFilterServiceInterface
   private onNewTransactionsCallbacks: ((newTransactions: Transaction[], storedTransactions: Transaction[]) => void)[] = []
-  private readonly maxSignaturesNumber = 0
+  private readonly maxSignaturesNumber: number
 
   constructor (
     cryptoService: CryptoServiceInterface,
