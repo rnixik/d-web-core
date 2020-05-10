@@ -24,7 +24,7 @@ export class TransactionService {
     storageService: StorageServiceInterface,
     validator: ValidatorServiceInterface,
     ignoreAndBlockFilterService: IgnoreAndBlockFilterServiceInterface,
-    maxSignaturesNumber = 0
+    maxSignaturesNumber: number = 0
   ) {
     this.transport = transport
     this.storageService = storageService

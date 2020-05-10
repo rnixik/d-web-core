@@ -27,10 +27,11 @@ export class UserService implements UserServiceInterface {
     return authenticatedUser
   }
 
-  public login (login: string, password: string): AuthenticatedUser {
+  public async login (login: string, password: string): Promise<AuthenticatedUser> {
     const authenticatedUser = this.cryptoService.getUserByLoginAndPassword(login, password)
 
-    if (!this.getUserByPublicKey(authenticatedUser.getPublicUser().publicKey)) {
+    const userWithPubKey = await this.getUserByPublicKey(authenticatedUser.getPublicUser().publicKey)
+    if (!userWithPubKey) {
       throw new Error('User has not been registered')
     }
 
@@ -38,9 +39,9 @@ export class UserService implements UserServiceInterface {
   }
 
   // noinspection JSUnusedGlobalSymbols
-  public getUsersWithTransactions (removeIgnored: boolean): UserWithTransactions[] {
+  public async getUsersWithTransactions (removeIgnored: boolean): Promise<UserWithTransactions[]> {
     const usersWithTransactions: UserWithTransactions[] = []
-    const allTransactions = this.transactionService.getTransactions(removeIgnored)
+    const allTransactions = await this.transactionService.getTransactions(removeIgnored)
     const usersIndex: Map<string, UserWithTransactions> = new Map()
     for (const tx of allTransactions) {
       if (tx.type === UserTransactionType.t) {
@@ -62,8 +63,8 @@ export class UserService implements UserServiceInterface {
     return usersWithTransactions
   }
 
-  private getUserByPublicKey (publicKey: string): User | null {
-    const storedTransactions = this.transactionService.getTransactions()
+  private async getUserByPublicKey (publicKey: string): Promise<User | null> {
+    const storedTransactions = await this.transactionService.getTransactions()
 
     for (const tx of storedTransactions) {
       if (tx.type !== UserTransactionType.t) {
