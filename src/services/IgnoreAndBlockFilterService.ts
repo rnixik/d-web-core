@@ -85,10 +85,10 @@ export class IgnoreAndBlockFilterService implements IgnoreAndBlockFilterServiceI
     return transactions
   }
 
-  private static filterBlockedTransactions (transactions: Transaction[], blockedHashes: Map<string, number>): Transaction[] {
+  private static filterBlockedTransactions (transactions: Transaction[], blockedHashes: string[]): Transaction[] {
     return transactions.filter((tx) => {
-      // If not in map
-      return !blockedHashes.has(tx.hash)
+      // If not in list
+      return blockedHashes.indexOf(tx.hash) === -1
     })
   }
 }

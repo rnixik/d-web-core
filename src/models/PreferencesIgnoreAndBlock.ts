@@ -19,7 +19,7 @@ export class PreferencesIgnoreAndBlock {
   public ignoreWhiteList: User[]
   public isIgnoreBlackListEnabled: boolean
   public isIgnoreWhiteListEnabled: boolean
-  public blockedTransactionHashes: Map<string, number>
+  public blockedTransactionHashes: string[]
 
   constructor (
     blockBlackList: User[],
@@ -30,7 +30,7 @@ export class PreferencesIgnoreAndBlock {
     ignoreWhiteList: User[],
     isIgnoreBlackListEnabled: boolean,
     isIgnoreWhiteListEnabled: boolean,
-    blockedTransactionHashes: Map<string, number> = new Map()
+    blockedTransactionHashes: string[] = []
   ) {
     this.blockBlackList = blockBlackList
     this.blockWhiteList = blockWhiteList

@@ -21,8 +21,7 @@ for (let i = 0; i < 10; i += 1) {
 
 class MockPreferencesStorageService implements PreferencesStorageServiceInterface {
     public async getPreferencesIgnoreAndBlock (): Promise<PreferencesIgnoreAndBlock> {
-        const blockedHashes = new Map<string, number>()
-        blockedHashes.set(transactions[9].hash, 1)
+        const blockedHashes = [transactions[9].hash]
 
         return new PreferencesIgnoreAndBlock(
             [users[0], users[1]],
