@@ -44,16 +44,17 @@ export class RegularDecentralizedApplication {
         this.transportService = new TransportService(this.connectionsPool, this.transactionSerializer, this.namespace)
         this.validatorService = new ValidatorService(this.cryptoService, this.transactionTypeResolver)
         this.ignoreAndBlockFilterService = new IgnoreAndBlockFilterService(this.storageService)
-        this.ignoreAndBlockControlService = new IgnoreAndBlockControlService(this.storageService)
-
         this.transactionService = new TransactionService(
             this.cryptoService,
             this.transportService,
             this.storageService,
             this.validatorService,
+            this.ignoreAndBlockControlService,
             this.ignoreAndBlockFilterService,
             this.maxSignaturesNumber
         )
+
+        this.ignoreAndBlockControlService = new IgnoreAndBlockControlService(this.storageService)
         this.userService = new UserService(this.cryptoService, this.transactionService)
     }
 

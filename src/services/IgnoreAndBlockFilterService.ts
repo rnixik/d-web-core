@@ -13,6 +13,8 @@ export class IgnoreAndBlockFilterService implements IgnoreAndBlockFilterServiceI
   public async filterBlocked (transactions: Transaction[]): Promise<Transaction[]> {
     const preferencesIgnoreAndBlock = await this.preferencesStorageService.getPreferencesIgnoreAndBlock()
 
+    transactions = IgnoreAndBlockFilterService.filterBlockedTransactions(transactions, preferencesIgnoreAndBlock.blockedTransactionHashes)
+
     if (preferencesIgnoreAndBlock.isBlockWhiteListEnabled) {
       return IgnoreAndBlockFilterService.filterWhiteList(transactions, preferencesIgnoreAndBlock.blockWhiteList)
     }
@@ -81,5 +83,12 @@ export class IgnoreAndBlockFilterService implements IgnoreAndBlockFilterServiceI
     })
 
     return transactions
+  }
+
+  private static filterBlockedTransactions (transactions: Transaction[], blockedHashes: Map<string, number>): Transaction[] {
+    return transactions.filter((tx) => {
+      // If not in map
+      return !blockedHashes.has(tx.hash)
+    })
   }
 }

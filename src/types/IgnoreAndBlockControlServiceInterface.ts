@@ -15,4 +15,6 @@ export interface IgnoreAndBlockControlServiceInterface {
   setBlockBlackListEnabled (enabled: boolean): Promise<void>
   setIgnoreWhiteListEnabled (enabled: boolean): Promise<void>
   setIgnoreBlackListEnabled (enabled: boolean): Promise<void>
+  addTransactionHashesToBlock (hashes: string[]): Promise<void>
+  clearTransactionHashesToBlock (): Promise<void>
 }

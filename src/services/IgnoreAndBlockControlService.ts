@@ -93,4 +93,19 @@ export class IgnoreAndBlockControlService implements IgnoreAndBlockControlServic
     preferences.isIgnoreBlackListEnabled = enabled
     await this.preferencesStorageService.storePreferencesIgnoreAndBlock(preferences)
   }
+
+  public async addTransactionHashesToBlock (hashes: string[]): Promise<void> {
+    const preferences = await this.preferencesStorageService.getPreferencesIgnoreAndBlock()
+    for (const hash in hashes) {
+      preferences.blockedTransactionHashes.set(hash, 1)
+    }
+
+    await this.preferencesStorageService.storePreferencesIgnoreAndBlock(preferences)
+  }
+
+  public async clearTransactionHashesToBlock(): Promise<void> {
+    const preferences = await this.preferencesStorageService.getPreferencesIgnoreAndBlock()
+    preferences.blockedTransactionHashes = new Map()
+    await this.preferencesStorageService.storePreferencesIgnoreAndBlock(preferences)
+  }
 }

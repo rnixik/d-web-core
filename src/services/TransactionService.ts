@@ -8,12 +8,14 @@ import { StorageServiceInterface } from '../types/StorageServiceInterface'
 import { TransportServiceInterface } from '../types/TransportServiceInterface'
 import { ValidatorServiceInterface } from '../types/ValidatorServiceInterface'
 import { IgnoreAndBlockFilterServiceInterface } from '../types/IgnoreAndBlockFilterServiceInterface'
+import { IgnoreAndBlockControlServiceInterface } from '../types/IgnoreAndBlockControlServiceInterface'
 
 export class TransactionService {
   private transport: TransportServiceInterface
   private storageService: StorageServiceInterface
   private validator: ValidatorServiceInterface
   private cryptoService: CryptoServiceInterface
+  private ignoreAndBlockControlService: IgnoreAndBlockControlServiceInterface
   private ignoreAndBlockFilterService: IgnoreAndBlockFilterServiceInterface
   private onNewTransactionsCallbacks: ((newTransactions: Transaction[], storedTransactions: Transaction[]) => void)[] = []
   private readonly maxSignaturesNumber: number
@@ -23,6 +25,7 @@ export class TransactionService {
     transport: TransportServiceInterface,
     storageService: StorageServiceInterface,
     validator: ValidatorServiceInterface,
+    ignoreAndBlockControlService: IgnoreAndBlockControlServiceInterface,
     ignoreAndBlockFilterService: IgnoreAndBlockFilterServiceInterface,
     maxSignaturesNumber: number = 0
   ) {
@@ -31,6 +34,7 @@ export class TransactionService {
     this.validator = validator
     this.cryptoService = cryptoService
     this.ignoreAndBlockFilterService = ignoreAndBlockFilterService
+    this.ignoreAndBlockControlService = ignoreAndBlockControlService
     this.maxSignaturesNumber = maxSignaturesNumber
 
     this.transport.addOnIncomingTransactionsCallback(async (transactions) => {
@@ -86,6 +90,7 @@ export class TransactionService {
   private async handleIncomingTransactions (incomingTransactions: Transaction[]): Promise<void> {
     const storedTransactions = await this.storageService.getTransactions()
     const transactionsToStore: Transaction[] = []
+    const hashesToBlock: string[] = []
 
     incomingTransactions = await this.ignoreAndBlockFilterService.filterBlocked(incomingTransactions)
 
@@ -102,6 +107,7 @@ export class TransactionService {
         try {
           this.validator.validateBase(storedTransactions, incomingTx)
         } catch (e) {
+          hashesToBlock.push(incomingTx.hash)
           console.error('Incoming transaction is invalid by base rules', e, incomingTx)
           continue
         }
@@ -111,6 +117,7 @@ export class TransactionService {
           transactionsToStore.push(incomingTx)
           storedTransactions.push(incomingTx)
         } catch (e) {
+          hashesToBlock.push(incomingTx.hash)
           console.error('Incoming transaction is invalid by specific rules', e, incomingTx)
         }
       }
@@ -121,6 +128,11 @@ export class TransactionService {
       if (newStoredTransactions.length) {
         await this.notifyContextAboutNewTransactions(newStoredTransactions, storedTransactions)
       }
+    }
+
+    if (hashesToBlock.length) {
+      // Block invalid transactions. The list of blocked can be cleared manually later.
+      await this.ignoreAndBlockControlService.addTransactionHashesToBlock(hashesToBlock)
     }
   }
 

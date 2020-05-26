@@ -21,6 +21,9 @@ for (let i = 0; i < 10; i += 1) {
 
 class MockPreferencesStorageService implements PreferencesStorageServiceInterface {
     public async getPreferencesIgnoreAndBlock (): Promise<PreferencesIgnoreAndBlock> {
+        const blockedHashes = new Map<string, number>()
+        blockedHashes.set(transactions[9].hash, 1)
+
         return new PreferencesIgnoreAndBlock(
             [users[0], users[1]],
             [users[2], users[3]],
@@ -29,7 +32,8 @@ class MockPreferencesStorageService implements PreferencesStorageServiceInterfac
             [users[4], users[5]],
             [users[6], users[7]],
             blackListsEnabled,
-            whiteListsEnabled
+            whiteListsEnabled,
+            blockedHashes
         )
     }
 
@@ -44,9 +48,10 @@ describe('IgnoreAndBlockFilterService', () => {
         blackListsEnabled = true
         whiteListsEnabled = false
         const filtered = await filterService.filterBlocked(transactions)
-        expect(filtered.length).toBe(8)
+        expect(filtered.length).toBe(7)
         expect(filtered).not.toContain(transactions[0])
         expect(filtered).not.toContain(transactions[1])
+        expect(filtered).not.toContain(transactions[9])
     })
 
     test('Filter blocked b0 w1', async () => {
