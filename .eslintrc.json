@@ -26,6 +26,7 @@
         "delimiter": "semi",    // 'semi' or 'comma'
         "requireLast": false
       }
-    }]
+    }],
+    "@typescript-eslint/require-await": "off"
   }
 }
